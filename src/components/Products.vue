@@ -1,8 +1,8 @@
-<template>
-<div class="product">
+``<template>
+<div class="product effect2">
   <div class="card">
     <div class="card-image">
-      <figure class="image is-4by3">
+      <figure class="image is-1by1">
         <img class="image-proper" :src= "product.picture" alt="Placeholder image"/>
         <img class="brand-overlay" :src="brandOverlay" alt="Placeholder image"/>
       </figure>
@@ -14,24 +14,27 @@
         <SelectionOrder v-bind:product="product" v-on:size-select="selectPrice" v-bind:orderprice="select"  v-bind:orderpricelast="lastSelectedPrice" v-bind:orderpromo="currentPromo"/>
       <div class="media-content">
       </div>
-        <p class="subtitle is-6">Price: <b>{{select}}</b>
-          <i v-if="currentPromo" class="promo-true">{{lastSelectedPrice}}</i>
+        <p class="subtitle is-6">Ціна: <b>{{select}}</b> грн
+          <i v-if="currentPromo" class="promo-true">{{lastSelectedPrice}} грн</i>
           <i v-else class="promo-false"></i>
       </p>
-      <b v-if="currentPromo" class="is-6 sale">Sale</b>
-      <b v-else class="is-6 sale">Standart price</b>
+      <ol>
+        <li v-if="currentPromo" class="is-6"><b class="sale">Знижка!</b>
+        <li v-else> <b class="is-6">Без знижки</b></li>
+        <li v-if="checkHappyHours()"><b class="is-6 sale">{{superSale.description}} <br/> {{superSale.time_start}}:00 - {{superSale.time_end}}:00 <br/> {{superSale.sale}} % на одну<br/> за рандомом.</b></li>
+        <li> <b class="is-6 sale">При перевищенні {{superSale.price_over}} грн,</b> <br/> <p class="sale">безкоштовна доставка</p></li>
+      </ol>
       </div>
     </div>
 
-    <div class="content"> <b>Ингридиенты: </b>
+    <div class="content"> <b>Інгредієнти: </b>
       {{product.description}}
       <br>
-      <b>Дата и время: </b>
+      <i>Дата та час: </i>
       <time datetime="product.time">{{product.time}}</time>
     </div>
   </div>
 </div>
-
   <!-- <h3>{{product.name}}</h3>
   <div class="image">
     <img class="chart-icon" :src="chartIcon" alt="">
@@ -51,9 +54,7 @@
 </template>
 
 <script>
-import image from '../assets/pic.jpg'
 import brandOverlay from '../assets/overlay.png'
-import chartIcon from '../assets/chart_Overlay.png'
 import SelectionOrder from '../components/SelectionOrder.vue'
 
 export default {
@@ -86,6 +87,24 @@ export default {
           this.lastSelectedPrice = this.product.lastprice.xl
           this.currentPromo = this.product.promo.xl
       }
+    },
+    checkHappyHours () {
+      const globalDate = new Date()
+      const getDayOfWeek = globalDate.getDay()
+      const getHours = globalDate.getHours()
+      const destructionDoW = this.superSale.dayofweekpromo.split('')
+      console.log(getDayOfWeek)
+      console.log(getHours)
+      console.log(parseInt(this.superSale.time_start))
+      console.log(destructionDoW)
+      if (getDayOfWeek >= parseInt(destructionDoW[0]) && getDayOfWeek <= parseInt(destructionDoW[1])) {
+        if (getHours >= parseInt(this.superSale.time_start) && getHours <= parseInt(this.superSale.time_end)) {
+          this.$store.commit('dailyPromo', true)
+          return true
+        } else {
+          return false
+        }
+      }
     }
   },
   msg: {
@@ -94,21 +113,18 @@ export default {
   },
   data: function () {
     return {
-      image: image,
       brandOverlay: brandOverlay,
-      chartIcon: chartIcon,
       select: this.product.currentprice.xl,
       lastSelectedPrice: this.product.lastprice.xl,
-      currentPromo: this.product.promo.xl
+      currentPromo: this.product.promo.xl,
+      superSale: this.$store.getters.sale[0],
+      activeDailyPromo: this.$store.getters.dailypromo
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-// *{
-//   outline: 1px dotted red;
-// }
 .image{
 }
 .image-proper{
@@ -122,11 +138,11 @@ export default {
 }
 .brand-overlay {
   position: absolute!important;
-  top:70%!important;
+  top:80%!important;
   left:60%!important;
   bottom: 0!important;
-  height:50px!important;
-  width: 150px!important;
+  height:40px!important;
+  width: 120px!important;
   opacity: 0.6;
   filter: alpha(opacity=60);
   /* For IE8 and earlier */
@@ -134,104 +150,51 @@ export default {
 }
 .promo-true {
   text-decoration: line-through;
-  color: #ff0000;
+  color: #cc0000;
 }
 .promo-false{
   color: #ffffff;
 }
 .sale {
-  color: #ff0000;
+  color: #cc0000;
+}
+.product{
+  z-index:0!important;
+}
+.effect2
+{
+  position: relative!important;
+}
+.effect2:before, .effect2:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 12px;
+  left: 6px;
+  width: 47%;
+  top: 96%;
+  max-width:300px;
+  background: #777!important;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.effect2:after
+{
+  z-index: -1;
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
 }
 
-// $promo-false: #ff0000;
-// $chart-icon-bg: #ff0000;
-// $chart-icon-border: #000000;
-// $chart-icon: #ff8888;
-// $image-bg: #ddeedd;
-// .product {
-//     display: block;
-//     margin: auto;
-//     position: relative;
-//     top: 0;
-//     left: 0;
-// }
-//
-// @media (min-height: 680px), screen and (orientation: portrait) {
-//     .image {
-//         position: relative;
-//         top: 0;
-//         left: 0;
-//         height: 10rem;
-//         width: auto;
-//         background-color: $image-bg;
-//     }
-//     .brand-overlay {
-//         position: absolute;
-//         top: 30%;
-//         left: 30%;
-//         width: 50%;
-//         opacity: 0.8;
-//         filter: alpha(opacity=80);
-//         /* For IE8 and earlier */
-//         border-radius: 5 px;
-//         z-index: 1;
-//     }
-//     .chart-icon {
-//         position: absolute;
-//         height: 20px;
-//         width: 20px;
-//         padding: 10px;
-//         border: 2px solid $chart-icon-border;
-//         background: $chart-icon-bg;
-//         border-radius: 5px;
-//         color: $chart-icon;
-//         z-index: 2;
-//     }
-//     .promo-true {
-//         text-decoration: line-through;
-//     }
-//     .promo-false {
-//         color: $promo-false;
-//     }
-// }
-// @media (min-height: 680px), screen and (orientation: landscape)  {
-//     .image {
-//         position: relative;
-//         top: 0;
-//         left: 0;
-//         height: 100px;
-//         width: auto;
-//         background-color: $image-bg;
-//     }
-//     .brand-overlay {
-//         position: absolute;
-//         top: 40%;
-//         left: 0;
-//         width: 98%;
-//         height: auto;
-//         opacity: 0.8;
-//         filter: alpha(opacity=80);
-//         /* For IE8 and earlier */
-//         border-radius: 5 px;
-//     }
-//     .chart-icon {
-//         float: right;
-//         position: absolute;
-//         top: 5px;
-//         left: 150px;
-//         height: 20px;
-//         width: 20px;
-//         padding: 10px;
-//         border: 2px solid $chart-icon-border;
-//         background: magenta;
-//         border-radius: 5px;
-//         color: $chart-icon;
-//     }
-//     .promo-true {
-//         text-decoration: line-through;
-//     }
-//     .promo-false {
-//         color: $promo-false;
-//     }
-// }
 </style>

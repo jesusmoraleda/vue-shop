@@ -1,14 +1,14 @@
-# Small Shop Project on VUE framework
+# PizzaPandaBC Branch (Ukraine pizza shop at Bila Cerkva)
 
 [![Open Source Helpers](https://www.codetriage.com/igavelyuk/vue-shop/badges/users.svg)](https://www.codetriage.com/igavelyuk/vue-shop/)  [![CircleCI](https://circleci.com/gh/igavelyuk/vue-shop/tree/master.svg?style=svg)](https://circleci.com/gh/igavelyuk/vue-shop/tree/master)
 
-## Base
+## База
 
 This project is a child of pink_tiger_burger_builder rewritten on VUE
 The pink_tiger_burger_builder is full featured superfast shop for burgers/pizzas/sushi's written from scratch on JS+SCSS+HTML+GULP
 
 In VUE SHOP we will use Vue framework with router and firebase, Visual structure will be more or less common with ancestor.
-[![Video of Current Status](https://img.youtube.com/vi/iofldHFFBXE/0.jpg)](https://www.youtube.com/watch?v=iofldHFFBXE)
+[![Video of Current Status](https://img.youtube.com/vi/GpB7B7w2008/0.jpg)](https://youtu.be/GpB7B7w2008)
 
 ## Contribute
 

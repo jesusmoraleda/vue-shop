@@ -3,22 +3,22 @@
   <b-navbar>{{msg}}
       <template slot="brand">
           <b-navbar-item tag="router-link" :to="{ path: '/' }">
-              <img src="../assets/logo.png" width="30" height="50">
+              <img class="is-rounded" src="../assets/logo.png">
               <span class="brand">{{brand_name}}</span>
           </b-navbar-item>
       </template>
       <template slot="start">
           <b-navbar-item tag="router-link" :to="{ path: '/' }">
-            <b-icon class="icon" pack="fas" icon="home"></b-icon>Home
+            <b-icon class="icon" pack="fas" icon="home"></b-icon>Головна
           </b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ path: '/about' }">
-            <b-icon class="icon" pack="fas" icon="address-card"></b-icon>About
+            <b-icon class="icon" pack="fas" icon="address-card"></b-icon>О компанії
           </b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ path: '/chart' }">
-            <b-icon class="icon" pack="fas" icon="shopping-cart"></b-icon>Chart
+            <b-icon class="icon" pack="fas" icon="shopping-cart"></b-icon>Кошик
           </b-navbar-item>
           <span class="search">
-            <input class="input" v-model="searchWord" :click = "searchProduct" type="text" placeholder="Find a product">
+            <input class="input" v-model="searchWord" :click = "searchProduct" type="text" placeholder="Пошук продукту">
             <!-- <a :click = "searchProduct" class="button is-light"><b-icon class="icon" pack="fas" icon="sign-in-alt"></b-icon>Search</a> -->
           </span>
       </template>
@@ -26,8 +26,8 @@
       <template slot="end">
           <b-navbar-item tag="div">
               <div class="buttons">
-                <b-button @click="SignUp" type="is-primary" pack="fas" icon-left="user-plus">Sign up</b-button>
-                <b-button @click="LogIn" type="is-primary" outlined pack="fas" icon-left="sign-in-alt">Log in</b-button>
+                <b-button @click="SignUp" type="is-primary" pack="fas" icon-left="user-plus">Реєстрація </b-button>
+                <b-button @click="LogIn" type="is-primary" outlined pack="fas" icon-left="sign-in-alt">Увійти</b-button>
               </div>
           </b-navbar-item>
       </template>
@@ -93,6 +93,9 @@ export default {
 }
 .icon {
   margin: 5px!important;
+}
+.is-rounded{
+  border-radius: 50%;
 }
 // .link {
 //   padding: 10px;
